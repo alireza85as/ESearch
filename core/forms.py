@@ -24,3 +24,12 @@ class APIRequestForm(forms.ModelForm):
             'use_case': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Primary Use Case')}),
             'message': forms.Textarea(attrs={'class': 'form-control', 'placeholder': _('Additional Details'), 'rows': 3}),
         }
+        
+    def clean_website(self):
+        website = self.cleaned_data.get('website')
+
+        if website and not website.startswith(('http://', 'https://')):
+            website = 'https://' + website
+
+        return website
+        
