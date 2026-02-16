@@ -21,7 +21,7 @@ class APIRequestForm(forms.ModelForm):
         fields = ['company_name', 'website', 'email', 'use_case', 'message']
         widgets = {
             'company_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Company Name')}),
-            'website': forms.UrlInput(attrs={'class': 'form-control', 'placeholder': _('Company Website')}),
+            'website': forms.URLInput(attrs={'class': 'form-control', 'placeholder': _('Company Website')}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': _('Work Email')}),
             'use_case': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Primary Use Case')}),
             'message': forms.Textarea(attrs={'class': 'form-control', 'placeholder': _('Additional Details'), 'rows': 3}),
