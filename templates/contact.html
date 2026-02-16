@@ -30,9 +30,7 @@
 
                 <div class="form-group">
                     <label>{% trans "Website" %}</label>
-                            {{ api_form.website.as_widget(attrs={
-                                "class": "form-control" | add:(" is-invalid" if api_form.website.errors else "")
-                            }) }}
+                            {{ api_form.website.as_widget(attrs={"class": "form-control" | add:(" is-invalid" if api_form.website.errors else "")}) }}
 
                             {% for error in api_form.website.errors %}
                                 <div class="invalid-feedback">
