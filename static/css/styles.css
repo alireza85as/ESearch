@@ -291,7 +291,7 @@ a:hover {
     background: rgba(255, 255, 255, 0.05);
 }
 
-element.style {
+textarea {
     resize: vertical;
 }
 
