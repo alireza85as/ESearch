@@ -91,8 +91,8 @@ WSGI_APPLICATION = "esearch_project.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+    'default': dj_database_url.parse(
+        os.environ.get("postgresql://esearch_db_user:TXM1LiB7oGMzjQT3HeJmOGbUY6MQgQMs@dpg-d69dmb3h46gs73frtc7g-a/esearch_db"),
         conn_max_age=600
     )
 }
