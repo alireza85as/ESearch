@@ -742,7 +742,7 @@ footer {
 /* Ultra Small Devices (max-width: 480px) */
 @media (max-width: 480px) {
     .container, .docs-container, .about-container {
-        padding: 0rem 1rem !important; /* Force tighter padding */
+        padding: 5px 1rem !important; /* Force tighter padding */
     }
     
     /* Typography Scaling */
