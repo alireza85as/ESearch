@@ -1,0 +1,84 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {% trans 'Esearch Admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <img src="{% static 'images/logo.png' %}" alt="Esearch Logo" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+        {% trans 'Esearch AdminPanel' %}
+    </a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    /* شخصی‌سازی پنل ادمین */
+    :root {
+        --primary: #007bff;
+        --secondary: #6c757d;
+    }
+
+    #header {
+        background: #1a1a1a;
+        color: #fff;
+    }
+
+    .module h2, .module caption, .inline-group h2 {
+        background: #2c3e50;
+    }
+
+    div.breadcrumbs {
+        background: #ff6a00e1;
+;
+    }
+
+    .module h2, .module caption, .inline-group h2 {
+    background: #ff6a00e1;
+    }
+
+    /* راست‌چین کردن برای زبان فارسی در ادمین */
+    [dir="rtl"] #header {
+        text-align: right;
+    }
+    
+    [dir="rtl"] .aligned label {
+        float: right;
+        padding-right: 0;
+        padding-left: 1em;
+    }
+
+    .button.default, input[type=submit].default, .submit-row input.default {
+    background: #ff6b00;
+    }
+
+    html[data-theme="dark"] {
+    --primary: #264b5d;
+    --primary-fg: #f7f7f7;
+    --body-fg: #eeeeee;
+    --body-bg: #121212;
+    --body-quiet-color: #e0e0e0;
+    --body-loud-color: #ffffff;
+    --breadcrumbs-link-fg: #e0e0e0;
+    --breadcrumbs-bg: var(--primary);
+    --link-fg: #ffc78a;
+    --link-hover-color: #4ac1f7;
+    --link-selected-fg: #d18f3d;
+    --hairline-color: #272727;
+    --border-color: #353535;
+    --error-fg: #e35f5f;
+    --message-success-bg: #006b1b;
+    --message-warning-bg: #583305;
+    --message-error-bg: #570808;
+    --darkened-bg: #212121;
+    --selected-bg: #1b1b1b;
+    --selected-row: #00363a;
+    --close-button-bg: #333333;
+    --close-button-hover-bg: #666666;
+    }
+</style>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+{% block title %}Esearch - {% trans "Developer Documentation" %}{% endblock %}
+
+{% block content %}
+<div class="container docs-container">
+    <!-- Sidebar -->
+    <aside class="docs-sidebar">
+        <h3>{% trans "Documentation" %}</h3>
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 0.5rem;"><a href="#intro" class="nav-link">{% trans "Introduction" %}</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="#auth" class="nav-link">{% trans "Authentication" %}</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="#endpoints" class="nav-link">{% trans "Endpoints" %}</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="#errors" class="nav-link">{% trans "Error Codes" %}</a></li>
+        </ul>
+    </aside>
+
+    <!-- Content -->
+    <div class="docs-content">
+        <h1 id="intro">{% trans "API Documentation" %}</h1>
+        <p>{% trans "Welcome to the Esearch API. Our API allows you to integrate image search capabilities directly into your applications." %}</p>
+        
+        <hr class="divider">
+
+        <h2 id="auth">{% trans "Authentication" %}</h2>
+        <p>{% trans "All API requests require an API key. You can obtain one by contacting our sales team." %}</p>
+        <div class="code-block">
+            <code>Authorization: Bearer YOUR_API_KEY</code>
+        </div>
+
+        <hr class="divider">
+
+        <h2 id="endpoints">{% trans "Endpoints" %}</h2>
+        
+        <h3>1. {% trans "Search by Image" %}</h3>
+        <p><span class="badge">POST</span> <code>/v1/search/image</code></p>
+        
+        <h4>{% trans "Request Body" %}</h4>
+        <p>{% trans "Send a multipart/form-data request with the image file." %}</p>
+        
+        <div class="code-block-dark">
+<pre><code>import requests
+
+url = "https://api.esearch.com/v1/search/image"
+files = {'image': open('shoe.jpg', 'rb')}
+headers = {'Authorization': 'Bearer YOUR_KEY'}
+
+response = requests.post(url, files=files, headers=headers)
+print(response.json())</code></pre>
+        </div>
+
+        <h4>{% trans "Response Example" %}</h4>
+        <div class="code-block-dark">
+<pre><code>{
+  "success": true,
+  "results": [
+    {
+      "id": "item_123",
+      "score": 0.98,
+      "metadata": {
+        "name": "Nike Air Max",
+        "category": "Shoes"
+      }
+    }
+  ]
+}</code></pre>
+        </div>
+
+        <hr class="divider">
+
+        <h2 id="errors">{% trans "Error Codes" %}</h2>
+        <div class="table-responsive">
+            <table class="docs-table">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>401</td>
+                        <td>{% trans "Unauthorized - Invalid API Key" %}</td>
+                    </tr>
+                    <tr>
+                        <td>400</td>
+                        <td>{% trans "Bad Request - Invalid Image Format" %}</td>
+                    </tr>
+                    <tr>
+                        <td>429</td>
+                        <td>{% trans "Too Many Requests - Rate Limit Exceeded" %}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

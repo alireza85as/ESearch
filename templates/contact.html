@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+{% block title %}Esearch - {% trans "Contact Us" %}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 4rem 1.5rem;">
+    <div style="text-align: center; margin-bottom: 4rem;">
+        <h1>{% trans "Get in Touch" %}</h1>
+        <p>{% trans "Have questions or want to request API access? We are here to help." %}</p>
+    </div>
+
+    <div class="grid" style="gap: 4rem;">
+        
+        <!-- API Request Form -->
+        <div>
+            <h2>{% trans "Request API Access" %}</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                {% trans "For enterprise customers looking to integrate our search technology." %}
+            </p>
+            
+            <form method="post" action="" style="background: var(--card-bg); padding: 2rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label>{% trans "Company Name" %}</label>
+                    {{ api_form.company_name }}
+                    {{ api_form.company_name.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label>{% trans "Website" %}</label>
+                    {{ api_form.website }}
+                    {{ api_form.website.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label>{% trans "Work Email" %}</label>
+                    {{ api_form.email }}
+                    {{ api_form.email.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label>{% trans "Use Case" %}</label>
+                    {{ api_form.use_case }}
+                    {{ api_form.use_case.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label>{% trans "Additional Details" %}</label>
+                    {{ api_form.message }}
+                    {{ api_form.message.errors }}
+                </div>
+
+                <button type="submit" name="submit_api" class="btn btn-primary" style="width: 100%;">{% trans "Submit Request" %}</button>
+            </form>
+        </div>
+
+        <!-- General Contact Form -->
+        <div>
+            <h2>{% trans "General Inquiries" %}</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                {% trans "For general questions, partnerships, or support." %}
+            </p>
+            
+            <form method="post" action="">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label>{% trans "Your Name" %}</label>
+                    {{ contact_form.name }}
+                    {{ contact_form.name.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label>{% trans "Email Address" %}</label>
+                    {{ contact_form.email }}
+                    {{ contact_form.email.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label>{% trans "Subject" %}</label>
+                    {{ contact_form.subject }}
+                    {{ contact_form.subject.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label>{% trans "Message" %}</label>
+                    {{ contact_form.message }}
+                    {{ contact_form.message.errors }}
+                </div>
+
+                <button type="submit" name="submit_contact" class="btn btn-outline" style="width: 100%;">{% trans "Send Message" %}</button>
+            </form>
+
+            <div style="margin-top: 3rem;">
+                <h3>{% trans "Contact Info" %}</h3>
+                <p><strong>Email:</strong> support@esearch.com</p>
+                <p><strong>Twitter:</strong> @esearch_ai</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

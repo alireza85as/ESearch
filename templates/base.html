@@ -1,0 +1,177 @@
+{% load i18n static %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'fa' %}rtl{% else %}ltr{% endif %}" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Esearch - Enterprise Image Search API{% endblock %}</title>
+    
+    <!-- Meta Tags for SEO -->
+    <meta name="description" content="{% block meta_description %}Advanced AI-based visual search technology request for enterprise apps.{% endblock %}">
+    <meta name="author" content="Esearch">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    
+    <!-- RTL Font Override -->
+    {% if LANGUAGE_CODE == 'fa' %}
+    <style>
+        body { font-family: 'Vazirmatn', sans-serif; }
+    </style>
+    {% endif %}
+    
+    <script>
+        // Check local storage for theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <a href="{% url 'home' %}" class="nav-brand">
+                <img src="{% static 'images/logo.png' %}" alt="Esearch Logo" class="nav-logo">
+                Esearch
+            </a>
+            
+            <button class="mobile-menu-btn" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <div class="nav-links">
+                <a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"><i class="fas fa-home"></i> {% trans "Home" %}</a>
+                <a href="{% url 'about' %}" class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}"><i class="fas fa-info-circle"></i> {% trans "About" %}</a>
+                <a href="{% url 'docs' %}" class="nav-link {% if request.resolver_match.url_name == 'docs' %}active{% endif %}"><i class="fas fa-book"></i> {% trans "Documentation" %}</a>
+                <a href="{% url 'contact' %}" class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}"><i class="fas fa-envelope"></i> {% trans "Contact" %}</a>
+                
+                <div class="lang-dropdown" id="lang-dropdown">
+                    <button type="button" class="lang-btn" id="lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="Change Language">
+                        <i class="fas fa-globe"></i>
+                        <span>{{ LANGUAGE_CODE|upper }}</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="lang-menu" id="lang-menu">
+                        {% for lang in languages %}
+                            <a href="{% url 'change_language' %}?lang={{ lang.code }}" class="lang-item {% if lang.code == LANGUAGE_CODE %}active{% endif %}">
+                                <span>{{ lang.name_local }}</span>
+                                {% if lang.code == LANGUAGE_CODE %}
+                                    <i class="fas fa-check"></i>
+                                {% endif %}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileBtn.addEventListener('click', () => {
+            const isExpanded = mobileBtn.getAttribute('aria-expanded') === 'true';
+            mobileBtn.setAttribute('aria-expanded', !isExpanded);
+            mobileBtn.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+    </script>
+
+    <main>
+        {% if messages %}
+        <div class="container" style="margin-top: 1rem;">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" style="padding: 1rem; background: var(--card-bg); border-left: 4px solid var(--primary-color); margin-bottom: 1rem;">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="copyright">
+                &copy; {% now "Y" %} Esearch. {% trans "All rights reserved." %}
+            </div>
+            <div class="footer-links">
+                <a href="{% url 'contact' %}" class="nav-link">{% trans "Contact Support" %}</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const html = document.documentElement;
+        
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        }
+
+        // Initialize icon
+        updateIcon(html.getAttribute('data-theme'));
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        // Language Dropdown Toggle
+        const langBtn = document.getElementById('lang-btn');
+        const langMenu = document.getElementById('lang-menu');
+        
+        if (langBtn && langMenu) {
+            langBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isActive = langMenu.classList.toggle('active');
+                langBtn.classList.toggle('active');
+                langBtn.setAttribute('aria-expanded', isActive);
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!langBtn.contains(e.target) && !langMenu.contains(e.target)) {
+                    langMenu.classList.remove('active');
+                    langBtn.classList.remove('active');
+                    langBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
